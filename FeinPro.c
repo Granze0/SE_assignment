@@ -1017,7 +1017,7 @@ void nguser()
         printf("2. View\n");
         printf("3. Search\n");
         printf("4. Back\n");
-        printf("5. Exit\n");
+        printf("5. Exitsadf\n");
         printf(">>> ");
         scanf(" %[^\n]", choise);
         if (strcasecmp(choise, "1") == 0 || strcasecmp(choise, "Beli") == 0)
@@ -1056,7 +1056,7 @@ void nguser()
         }
         else
         {
-            printf("Menu Tidak Ada\n");
+            printf("Menu Tidak Adaasdfsadf\n");
         }
     } while (strcasecmp(choise, "4") != 0 && strcasecmp(choise, "back") != 0);
 
