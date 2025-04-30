@@ -1086,9 +1086,9 @@ int main()
     do
     {
         system("cls");
-        printf("======================\n");
-        printf("=== Selamat Datang ===\n");
-        printf("======================\n");
+        // printf("======================\n");
+        // printf("=== Selamat Datang ===\n");
+        // printf("======================\n");
         printf("1. Admin\n");
         printf("2. User\n");
         printf("3. Exit\n");
