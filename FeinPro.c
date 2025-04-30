@@ -1069,19 +1069,19 @@ int main()
     char choise[20];
     char username[20], password[20];
     file = fopen("databes.txt", "r");
-    if (file == NULL)
-    {
-        printf("File Tidak Ditemukan\n");
-    }
-    else
-    {
-        while (fscanf(file, " %[^#]#%[^#]#%[^#]#%[^#]#%[^#]#%[^#]#%d#%d\n", temp.title, temp.genre, temp.rating, temp.director, temp.kelas, temp.id, &temp.idnum, &temp.stock) != EOF)
-        {
-            generate_key(temp.id, temp.idnum);
-            oyot = insert_data(oyot, temp);
-            lemper++;
-        }
-        fclose(file);
+    // if (file == NULL)
+    // {
+    //     printf("File Tidak Ditemukan\n");
+    // }
+    // else
+    // {
+    //     while (fscanf(file, " %[^#]#%[^#]#%[^#]#%[^#]#%[^#]#%[^#]#%d#%d\n", temp.title, temp.genre, temp.rating, temp.director, temp.kelas, temp.id, &temp.idnum, &temp.stock) != EOF)
+    //     {
+    //         generate_key(temp.id, temp.idnum);
+    //         oyot = insert_data(oyot, temp);
+    //         lemper++;
+    //     }
+    //     fclose(file);
     }
     do
     {
