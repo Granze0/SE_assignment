@@ -1064,6 +1064,15 @@ void nguser()
     oyot = NULL;
 }
 
+void thelastshow()
+{
+    printf("Terimakasih telah menggunakan program kami\n");
+    printf("Program ini dibuat oleh:\n");
+    printf("1. Brhanselino Satrio Edipurtta\n");
+    printf("2. Muhammad Farrel Malvin\n");
+    printf("3. Farhandy Ramadhan\n");
+}
+
 int main()
 {
     char choise[20];
@@ -1124,7 +1133,7 @@ int main()
         }
         else if (strcasecmp(choise, "3") == 0 || strcasecmp(choise, "Exit") == 0)
         {
-            printf("\nTerimakasih telah menggunakan program kami\n\n");
+            thelastshow();
         }
         else
         {
