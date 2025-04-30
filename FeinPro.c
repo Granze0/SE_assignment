@@ -1064,16 +1064,40 @@ void nguser()
     oyot = NULL;
 }
 
+void thelastshow()
+{
+    printf("Terimakasih telah menggunakan program kami\n");
+    printf("Program ini dibuat oleh:\n");
+    printf("1. Brhanselino Satrio Edipurtta\n");
+    printf("2. Muhammad Farrel Malvin\n");
+    printf("3. Farhandy Ramadhan\n");
+}
+
 int main()
 {
     char choise[20];
     char username[20], password[20];
     file = fopen("databes.txt", "r");
+    if (file == NULL)
+    {
+        printf("File Tidak Ditemukan\n");
+    }
+    else
+    {
+        while (fscanf(file, " %[^#]#%[^#]#%[^#]#%[^#]#%[^#]#%[^#]#%d#%d\n", temp.title, temp.genre, temp.rating, temp.director, temp.kelas, temp.id, &temp.idnum, &temp.stock) != EOF)
+        {
+            generate_key(temp.id, temp.idnum);
+            oyot = insert_data(oyot, temp);
+            lemper++;
+        }
+        fclose(file);
     }
     do
     {
         system("cls");
-
+        printf("======================\n");
+        printf("=== Selamat Datang ===\n");
+        printf("======================\n");
         printf("1. Admin\n");
         printf("2. User\n");
         printf("3. Exit\n");
@@ -1109,7 +1133,7 @@ int main()
         }
         else if (strcasecmp(choise, "3") == 0 || strcasecmp(choise, "Exit") == 0)
         {
-            printf("\nTerimakasih telah menggunakan program kami\n\n");
+            thelastshow();
         }
         else
         {
