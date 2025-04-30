@@ -1,12 +1,12 @@
-z#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <conio.h>
 #include <stdbool.h>
 
-#define BG_COLOR_ROOT "\x1b[48;5;34m"  // Background color for root node (green)
-#define BG_COLOR_NODE "\x1b[48;5;255m" // Background color for other nodes (white)
+#define BG_COLOR_ROOT "\x1b[48;5;34m"
+#define BG_COLOR_NODE "\x1b[48;5;255m"
 #define RESET_COLOR "\x1b[0m"
 
 FILE *file;
@@ -153,7 +153,7 @@ avl *minValueNode(avl *node)
     return current;
 }
 
-void masukinkedatabes(avl *oyot, FILE *file) // Memasuukan data ke file
+void masukinkedatabes(avl *oyot, FILE *file)
 {
     if (oyot != NULL)
     {
@@ -163,7 +163,7 @@ void masukinkedatabes(avl *oyot, FILE *file) // Memasuukan data ke file
     }
 }
 
-avl *deleteNode(avl *root, char *key) // Menghapus data dari root
+avl *deleteNode(avl *root, char *key)
 {
     if (root == NULL)
     {
@@ -230,7 +230,7 @@ avl *deleteNode(avl *root, char *key) // Menghapus data dari root
     return root;
 }
 
-avl *checkid(avl *root, char *kode) // Mengecek ID
+avl *checkid(avl *root, char *kode)
 {
     if (root == NULL)
     {
@@ -264,7 +264,7 @@ avl *checkid(avl *root, char *kode) // Mengecek ID
     }
 }
 
-void save_to_databes(avl *root) // Menyimpan data ke file
+void save_to_databes(avl *root)
 {
     file = fopen("databes.txt", "w");
     if (file == NULL)
@@ -276,7 +276,7 @@ void save_to_databes(avl *root) // Menyimpan data ke file
     fclose(file);
 }
 
-void update_stock(avl *root, char *kode, int newstok) // Mengupdate stock dari root
+void update_stock(avl *root, char *kode, int newstok)
 {
     if (root == NULL)
     {
@@ -301,54 +301,44 @@ void update_stock(avl *root, char *kode, int newstok) // Mengupdate stock dari r
     }
 }
 
-void generate_key(char *inisial, int idnum) // Menggenerate key
+void generate_key(char *inisial, int idnum)
 {
     sprintf(temp.key, "%s-%05d", inisial, idnum);
 }
 
-// Fungsi untuk memperbarui stok berdasarkan ID
 void Update()
 {
-    char title[10]; // Array untuk menyimpan ID yang diinput pengguna
-    int stok;       // Variabel untuk menyimpan jumlah stok yang akan ditambahkan
+    char title[10];
+    int stok;
 
-    // Meminta pengguna untuk memasukkan ID data yang ingin diperbarui
     printf("Update\n ID          : ");
     scanf(" %[^\n]", title);
 
-    // Meminta pengguna untuk memasukkan jumlah stok yang ingin ditambahkan
     printf(" Add Stock   : ");
     scanf(" %d", &stok);
 
-    // Memperbarui stok berdasarkan ID
     update_stock(oyot, title, stok);
 
-    // Menyimpan data terbaru ke dalam database
     save_to_databes(oyot);
 }
 
-// Fungsi untuk menghapus data berdasarkan ID
 void Delete()
 {
-    avl *find;      // Pointer untuk menyimpan node yang ditemukan
-    char ingfo[50]; // Array untuk menyimpan ID yang diinput pengguna
+    avl *find;
+    char ingfo[50];
 
-    // Meminta pengguna untuk memasukkan ID data yang ingin dihapus
     printf("Delete\n ID    : ");
     scanf(" %[^\n]", ingfo);
 
-    // Mencari data berdasarkan ID yang diberikan
     find = checkid(oyot, ingfo);
 
-    // Jika data tidak ditemukan atau ID tidak cocok
     if (find == NULL || strcmp(find->data.key, ingfo) != 0)
     {
         printf("Data dengan ID %s tidak ditemukan\n", ingfo);
-        return; // Keluar dari fungsi
+        return;
     }
     else
     {
-        // Menampilkan data yang ditemukan
         printf("\nTitle    : %s\n", find->data.title);
         printf("Genre    : %s\n", find->data.genre);
         printf("ID       : %s\n", find->data.key);
@@ -358,10 +348,8 @@ void Delete()
         printf("Stock    : %d\n", find->data.stock);
     }
 
-    // Menghapus node dari AVL tree
     oyot = deleteNode(oyot, ingfo);
 
-    // Menyimpan data terbaru ke dalam database
     save_to_databes(oyot);
 }
 
@@ -369,7 +357,7 @@ void view_data(avl *root, int is_root)
 {
     if (root != NULL)
     {
-        view_data(root->left, 0); // Not root
+        view_data(root->left, 0);
         if (is_root)
         {
             printf(BG_COLOR_ROOT "|%-50s|%-30s|%-10s|%-7s|%-32s|%-7d|%-10s|" RESET_COLOR "\n", root->data.title, root->data.genre, root->data.key, root->data.rating, root->data.director, root->data.stock, root->data.kelas);
@@ -395,28 +383,28 @@ void View()
 
 void capitalizeWords(char *str)
 {
-    int capitalizeNext = 1; // Penanda apakah karakter berikutnya harus diubah menjadi huruf kapital
+    int capitalizeNext = 1;
 
     for (int i = 0; str[i] != '\0'; i++)
     {
         if (capitalizeNext && isalpha(str[i]))
         {
-            str[i] = toupper(str[i]); // Ubah karakter menjadi huruf kapital
-            capitalizeNext = 0;       // Setel penanda menjadi 0 karena sudah mengubah karakter pertama dalam kata
+            str[i] = toupper(str[i]);
+            capitalizeNext = 0;
         }
         else
         {
-            str[i] = tolower(str[i]); // Ubah karakter menjadi huruf kecil
+            str[i] = tolower(str[i]);
         }
 
         if (str[i] == ' ')
         {
-            str[i] = ',';       // Ganti spasi menjadi koma
-            capitalizeNext = 1; // Setel penanda menjadi 1 untuk mengubah karakter berikutnya menjadi huruf kapital
+            str[i] = ',';
+            capitalizeNext = 1;
         }
         else if (str[i] == ',')
         {
-            capitalizeNext = 1; // Setel penanda menjadi 1 karena koma memisahkan kata
+            capitalizeNext = 1;
         }
     }
 }
@@ -424,41 +412,37 @@ void capitalizeWords(char *str)
 void capitalizeAfterSpace(char *str)
 {
     int i = 0;
-    str[0] = toupper(str[0]); // Ubah huruf pertama menjadi huruf kapital
+    str[0] = toupper(str[0]);
 
     while (str[i] != '\0')
     {
         if (str[i] == ' ' && str[i + 1] != '\0')
         {
-            str[i + 1] = toupper(str[i + 1]); // Ubah huruf setelah spasi menjadi huruf kapital
+            str[i + 1] = toupper(str[i + 1]);
         }
         i++;
     }
 }
 
-// Fungsi untuk mendapatkan inisial dari nama dan menyimpannya dalam string 'initials'
 void getInitials(char *name, char *initials)
 {
-    int j = 0, i;    // Inisialisasi variabel penghitung
-    int isSpace = 1; // Variabel flag untuk menentukan apakah karakter sebelumnya adalah spasi
+    int j = 0, i;
+    int isSpace = 1;
 
-    // Loop melalui setiap karakter dalam string 'name'
     somehowunsigneddeclaration = strlen(name);
     for (i = 0; i < somehowunsigneddeclaration; i++)
     {
-        // Jika karakter saat ini bukan spasi dan karakter sebelumnya adalah spasi
         if (!isspace(name[i]) && isSpace)
         {
-            // Tambahkan karakter saat ini (dalam bentuk huruf besar) ke dalam string 'initials'
             initials[j++] = toupper(name[i]);
-            isSpace = 0; // Set flag isSpace menjadi 0 karena karakter saat ini bukan spasi
+            isSpace = 0;
         }
         else if (isspace(name[i]))
         {
-            isSpace = 1; // Set flag isSpace menjadi 1 jika karakter saat ini adalah spasi
+            isSpace = 1;
         }
     }
-    initials[j] = '\0'; // Tambahkan null-terminator di akhir string 'initials'
+    initials[j] = '\0';
 }
 
 void reduce_stock(avl *root, char *kode, int newstok)
@@ -478,31 +462,23 @@ void reduce_stock(avl *root, char *kode, int newstok)
     save_to_databes(oyot);
 }
 
-// Fungsi untuk membuat kunci berdasarkan inisial dan nomor ID
 int create_key(char *inisial, int idnum)
 {
     int sum = 0;
     somehowunsigneddeclaration = strlen(inisial);
-    // Menghitung jumlah nilai ASCII dari setiap karakter dalam inisial
     for (int i = 0; i < somehowunsigneddeclaration; i++)
     {
         sum += inisial[i];
     }
 
-    // Jika jumlah tersebut genap
     if (sum % 2 == 0)
     {
-        // Kalikan jumlah dengan 3
         sum = sum * 3;
-        // Kembalikan hasil pengurangan antara jumlah yang telah dikalikan dan nomor ID
         return sum - idnum;
     }
-    // Jika jumlah tersebut ganjil
     else
     {
-        // Kalikan jumlah dengan 2
         sum = sum * 2;
-        // Kembalikan hasil penjumlahan antara jumlah yang telah dikalikan dan nomor ID
         return sum + idnum;
     }
 }
@@ -512,51 +488,44 @@ int Insert()
     int temu, hasil_generate_key;
     char initials[10];
 
-    // Input dan validasi judul
     do
     {
         printf("Insert\n Title    : ");
         scanf(" %[^\n]", temp.title);
     } while (strlen(temp.title) > 50 || strlen(temp.title) < 1);
 
-    // Input dan validasi genre
     do
     {
         printf(" Genre    : ");
         scanf(" %[^\n]", temp.genre);
 
-        // Mengganti spasi pertama dengan koma
         char *spacePos = strchr(temp.genre, ' ');
         if (spacePos != NULL)
         {
             *spacePos = ',';
         }
-        // Mengkapitalisasi kata-kata di genre
         capitalizeWords(temp.genre);
     } while (strlen(temp.genre) > 50 || strlen(temp.genre) < 1);
 
-    // Input dan validasi rating
     do
     {
         printf(" Rating   : ");
         scanf(" %[^\n]", temp.rating);
         temu = 0;
         somehowunsigneddeclaration = strlen(temp.rating);
-        bool hasDecimal = false; // Flag untuk memeriksa jika ditemukan titik desimal
+        bool hasDecimal = false;
         for (int i = 0; i < somehowunsigneddeclaration; i++)
         {
-            // Memeriksa apakah karakter bukan digit atau titik desimal
             if ((temp.rating[i] < '0' || temp.rating[i] > '9') && temp.rating[i] != '.')
             {
                 temu = 1;
-                break; // Keluar dari loop jika ditemukan karakter yang bukan digit (kecuali '.')
+                break;
             }
             if (temp.rating[i] == '.')
             {
-                hasDecimal = true; // Menandai jika ditemukan titik desimal
+                hasDecimal = true;
             }
         }
-        // Jika tidak ditemukan titik desimal, set flag untuk input tidak valid
         if (!hasDecimal)
         {
             temu = 1;
@@ -567,34 +536,28 @@ int Insert()
         }
     } while (temu == 1);
 
-    // Input dan validasi director
     do
     {
         printf(" Director : ");
         scanf(" %[^\n]", temp.director);
-        // Mengkapitalisasi kata setelah spasi di direktur
         capitalizeAfterSpace(temp.director);
     } while (strlen(temp.director) > 35 || strlen(temp.director) < 1);
 
-    // Mendapatkan inisial dari direktur
     getInitials(temp.director, initials);
     strcpy(temp.id, initials);
 
-    // Input dan validasi kelas
     do
     {
         printf(" \n  G - Untuk semua penonton\n  PG - Dibawah 13 tahun tidak diperkenankan\n  R - Terbatas, dibawah 17 tahun tidak diperkenankan\n  A - Hanya untuk dewasa\n\n");
         printf(" Class    : ");
         scanf(" %[^\n]", temp.kelas);
         somehowunsigneddeclaration = strlen(temp.kelas);
-        // Mengkapitalisasi semua karakter di kelas
         for (int i = 0; i < somehowunsigneddeclaration; i++)
         {
             temp.kelas[i] = toupper(temp.kelas[i]);
         }
     } while (strlen(temp.kelas) > 10 || strlen(temp.kelas) < 1 || (strcasecmp(temp.kelas, "G") != 0 && strcasecmp(temp.kelas, "PG") != 0 && strcasecmp(temp.kelas, "R") != 0 && strcasecmp(temp.kelas, "A") != 0));
 
-    // Input dan validasi stok
     do
     {
         printf(" Stock    : ");
@@ -603,59 +566,45 @@ int Insert()
         fflush(stdin);
     } while (temp.stock <= 0 || temu == 0);
 
-    // Menghasilkan kunci unik untuk data baru
     hasil_generate_key = create_key(temp.id, lemper);
     generate_key(temp.id, hasil_generate_key);
-    // Menyisipkan data ke pohon AVL
     oyot = insert_data(oyot, temp);
     temp.idnum = hasil_generate_key;
     lemper++;
 
-    // Membuka file untuk menulis data baru
     file = fopen("databes.txt", "a");
-    // Menulis data ke file dalam format tertentu
     fprintf(file, "%s#%s#%s#%s#%s#%s#%d#%d\n", temp.title, temp.genre, temp.rating, temp.director, temp.kelas, temp.id, temp.idnum, temp.stock);
-    // Menutup file setelah selesai menulis
     fclose(file);
     printf("\nData Berhasil Dimasukkan\n");
 }
 
-// Fungsi untuk memeriksa apakah usia pengguna sesuai dengan batasan kelas film
 int age_checker(avl *root, int age)
 {
-    // Memeriksa apakah kelas film adalah "G" (General audience)
     if (strcmp(root->data.kelas, "G") == 0)
     {
-        // Jika usia kurang dari 0, kembalikan 0 (tidak valid)
         if (age < 0)
         {
             return 0;
         }
     }
-    // Memeriksa apakah kelas film adalah "PG" (Parental Guidance)
     else if (strcmp(root->data.kelas, "PG") == 0)
     {
-        // Jika usia kurang dari 13 tahun, tampilkan pesan dan kembalikan 0 (tidak diizinkan)
         if (age < 13)
         {
             printf("You are not allowed to watch this movie\n");
             return 0;
         }
     }
-    // Memeriksa apakah kelas film adalah "R" (Restricted)
     else if (strcmp(root->data.kelas, "R") == 0)
     {
-        // Jika usia kurang dari 17 tahun, tampilkan pesan dan kembalikan 0 (tidak diizinkan)
         if (age < 17)
         {
             printf("You are not allowed to watch this movie\n");
             return 0;
         }
     }
-    // Memeriksa apakah kelas film adalah "A" (Adults only)
     else if (strcmp(root->data.kelas, "A") == 0)
     {
-        // Jika usia kurang dari 18 tahun, tampilkan pesan dan kembalikan 0 (tidak diizinkan)
         if (age < 18)
         {
             printf("You are not allowed to watch this movie\n");
@@ -664,27 +613,22 @@ int age_checker(avl *root, int age)
     }
     else
     {
-        // Jika kelas film tidak sesuai dengan salah satu di atas, kembalikan 0 (tidak valid)
         return 0;
     }
-    // Jika semua pemeriksaan lulus, kembalikan 1 (diizinkan)
     return 1;
 }
 
-// Fungsi untuk memeriksa apakah sebuah string hanya berisi karakter numerik
 bool is_numeric(const char *str)
 {
-    // Loop melalui setiap karakter dalam string
     while (*str)
     {
-        // Memeriksa apakah karakter saat ini bukan digit
         if (!isdigit(*str))
         {
-            return false; // Jika ditemukan karakter non-digit, kembalikan false
+            return false;
         }
-        str++; // Pindah ke karakter berikutnya
+        str++;
     }
-    return true; // Jika semua karakter adalah digit, kembalikan true
+    return true;
 }
 
 void user_beli()
@@ -692,37 +636,31 @@ void user_beli()
     char kode[10], name_user[20], str_age[4];
     int jumlah, age, temu;
 
-    // Input nama pengguna
     printf(" Name   : ");
     scanf(" %[^\n]", name_user);
 
     avl *temp1;
 
-    // Input dan validasi usia
     do
     {
         printf(" Age    : ");
         scanf(" %9s", str_age);
 
-        // Memeriksa apakah usia berupa angka
         if (!is_numeric(str_age))
         {
             printf("Invalid age. Please enter a numeric value.\n");
             continue;
         }
 
-        // Mengonversi usia dari string ke integer
         age = atoi(str_age);
         break;
     } while (1 || age < 0);
 
-    // Input dan validasi ID
     do
     {
         printf(" ID     : ");
         scanf(" %[^\n]", kode);
 
-        // Memeriksa apakah ID valid
         temp1 = checkid(oyot, kode);
         if (temp1 == NULL || strcmp(temp1->data.key, kode) != 0)
         {
@@ -730,7 +668,6 @@ void user_beli()
             continue;
         }
 
-        // Memeriksa apakah usia memenuhi syarat untuk ID tersebut
         if (!age_checker(temp1, age))
         {
             continue;
@@ -739,7 +676,6 @@ void user_beli()
         break;
     } while (1);
 
-    // Input dan validasi jumlah
     do
     {
         temu = 0;
@@ -748,7 +684,6 @@ void user_beli()
         fflush(stdin);
     } while (jumlah < 0 || temu == 0);
 
-    // Mengurangi stok berdasarkan ID dan jumlah
     reduce_stock(oyot, kode, jumlah);
 }
 
@@ -766,7 +701,7 @@ bool search_by_title(avl *root, char *title)
     {
         search_by_title(root->left, title);
         if (strstr(root->data.title, title) != NULL)
-        { // Fixed condition to strstr returning a non-null pointer
+        {
             printf("|%-50s|%-30s|%-10s|%-7s|%-32s|%-7d|%-10s|\n", root->data.title, root->data.genre, root->data.key, root->data.rating, root->data.director, root->data.stock, root->data.kelas);
             printf("----------------------------------------------------------------------------------------------------------------------------------------------------------\n");
         }
@@ -775,21 +710,17 @@ bool search_by_title(avl *root, char *title)
     return found;
 }
 
-// Helper function to check if the target genre is in the genre list
 bool is_genre_in_list(char *genre_list, char *target_genre)
 {
     char *token;
-    char genre_copy[100]; // Copy of genre_list to avoid modifying the original string
+    char genre_copy[100];
 
-    // Copy the genre list to a temporary buffer
     strncpy(genre_copy, genre_list, sizeof(genre_copy));
-    genre_copy[sizeof(genre_copy) - 1] = '\0'; // Ensure null-termination
+    genre_copy[sizeof(genre_copy) - 1] = '\0';
 
-    // Tokenize the string by commas
     token = strtok(genre_copy, ",");
     while (token != NULL)
     {
-        // Trim whitespace from token
         while (*token == ' ')
             token++;
         char *end = token + strlen(token) - 1;
@@ -797,7 +728,6 @@ bool is_genre_in_list(char *genre_list, char *target_genre)
             end--;
         *(end + 1) = '\0';
 
-        // Compare the tokenized genre with the target genre
         if (strcasecmp(token, target_genre) == 0)
         {
             return true;
@@ -860,17 +790,14 @@ bool search_by_class(avl *root, char *kelas)
     return found;
 }
 
-// Fungsi untuk menghitung jumlah node dalam pohon AVL
 int countNodes(avl *root)
 {
-    if (!root) // Jika root kosong (NULL), mengembalikan 0
+    if (!root)
         return 0;
 
-    // Mengembalikan jumlah node, yaitu 1 (untuk node saat ini) ditambah jumlah node pada subtree kiri dan kanan
     return 1 + countNodes(root->left) + countNodes(root->right);
 }
 
-// Fungsi untuk mengumpulkan node-node dalam sebuah array selama traversal in-order
 void collectNodes(avl *root, kuda **nodes, int *index)
 {
     if (root)
@@ -881,36 +808,33 @@ void collectNodes(avl *root, kuda **nodes, int *index)
     }
 }
 
-// Fungsi untuk membandingkan rating untuk pengurutan qsort
 int compareRatings(const void *a, const void *b)
 {
-    kuda *dataA = *(kuda **)a;                   // Cast a ke pointer kuda
-    kuda *dataB = *(kuda **)b;                   // Cast b ke pointer kuda
-    return strcmp(dataB->rating, dataA->rating); // Membandingkan rating secara menurun
+    kuda *dataA = *(kuda **)a;
+    kuda *dataB = *(kuda **)b;
+    return strcmp(dataB->rating, dataA->rating);
 }
 
-// Fungsi untuk mencetak node berdasarkan rating secara menurun
 void printNodesByRating(avl *root)
 {
     if (!root)
         return;
 
-    int totalNodes = countNodes(root);                           // Menghitung total node dalam pohon AVL
-    kuda **nodes = (kuda **)malloc(totalNodes * sizeof(kuda *)); // Mengalokasikan memori untuk array nodes
+    int totalNodes = countNodes(root);
+    kuda **nodes = (kuda **)malloc(totalNodes * sizeof(kuda *));
     int index = 0;
 
-    collectNodes(root, nodes, &index); // Mengumpulkan node dalam array nodes
+    collectNodes(root, nodes, &index);
 
-    qsort(nodes, totalNodes, sizeof(kuda *), compareRatings); // Mengurutkan nodes berdasarkan rating menggunakan qsort
+    qsort(nodes, totalNodes, sizeof(kuda *), compareRatings);
 
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------------\n");
     for (int i = 0; i < totalNodes; i++)
     {
-        // Mencetak data setiap node dalam baris tabel yang diformat
         printf("|%-50s|%-30s|%-10s|%-7s|%-32s|%-7d|%-10s|\n", nodes[i]->title, nodes[i]->genre, nodes[i]->key, nodes[i]->rating, nodes[i]->director, nodes[i]->stock, nodes[i]->kelas);
         printf("----------------------------------------------------------------------------------------------------------------------------------------------------------\n");
     }
-    free(nodes); // Membebaskan memori yang dialokasikan secara dinamis
+    free(nodes);
 }
 
 void search_by()
